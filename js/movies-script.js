@@ -84,7 +84,7 @@ const movies = [
  {
     id: 9,
     titel: "The Matrix",
-    genre: "science-fiction",
+    genre: "Science-fiction",
     year: "1999",
     duration: "3.02",
     img: "img/the-matrix.webp",
@@ -94,7 +94,7 @@ const movies = [
  {
     id: 10,
     titel: "Pulp Fiction",
-    genre: "drama",
+    genre: "Drama",
     year: "1994",
     duration: "1.39",
     img: "img/pulp-fiction.webp",
@@ -109,10 +109,33 @@ const searchInput = document.querySelector("#gsearch");
 const form = document.querySelector("form");
 
 function filterMovies() {
+
   const selectedValue = selectedCategory.value;
   const searchTerm = searchInput.value.toLowerCase().trim();
 
+  let filteredMovies = movies;
+
+  if (selectedValue != "Alle") {
+    filteredMovies = filteredMovies.filter((item) => {
+  
+      return item.genre === selectedValue;
+  });
 }
+
+if(searchTerm !="") {
+  filteredMovies = filteredMovies.filter((item) => {
+    return item.titel.toLowerCase().includes(searchTerm);
+  });
+  } 
+  displayMovies(filteredMovies);
+}
+
+selectedCategory.addEventListener("change", filterMovies);
+searchInput.addEventListener("input", filterMovies);
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  filterMovies();
+});
 
 
 
