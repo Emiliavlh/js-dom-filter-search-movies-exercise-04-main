@@ -138,13 +138,27 @@ form.addEventListener("submit", (event) => {
 });
 
 
+let favoritIds = JSON.parse(localStorage.getItem("favoritIds")) || [];
+function isFavorite(id) {
+  return favoritIds.includes(id);
+}
 
 
 function displayMovies(moviesList) {
   moviesContainer.innerHTML += "";
   const html = moviesList.map((item) => {
+        let star;
+        if (isFavorite(item.id)) {
+          star = "★";
+        } else {
+          star = "☆";
+        }
     return `
     <article>
+  <button class="favorite-btn" data-id="${item.id}" aria-label="Vælg favorit">
+  ${star}
+  </button>
+
     <h2>${item.titel}</h2>
     <ul>
         <li>Genre: ${item.genre}</li>
@@ -162,5 +176,30 @@ function displayMovies(moviesList) {
   })
   .join("");
   moviesContainer.innerHTML = html;
+
+const favoriteButtons = document.querySelectorAll(".favorite-btn");
+
+favoriteButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const favoritIds = Number(button.dataset.id);
+    toggleFavorite(favoritIds);
+  });
+});
+
 }
+
+function toggleFavorite(id){
+  if(favoritIds.includes(id)){
+    favoritIds = favoritIds.filter((favoriteId) => {
+      return favoriteId !== id;
+    });
+  } else {
+    favoritIds.push(id);
+  }
+
+  localStorage.setItem("favoriteMovies", JSON.stringify(favoritIds));
+
+  displayMovies(movies);
+}
+
 displayMovies(movies);

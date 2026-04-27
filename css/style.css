@@ -39,8 +39,14 @@ form {
 }
 
 article {
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 30px;   
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 30px;
 }
 
+.favorite-btn {
+  background: none;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+}
